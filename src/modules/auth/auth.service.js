@@ -1,3 +1,4 @@
+// src/modules/auth/auth.service.js
 import User from "../user/user.model.js";
 import { hashPassword, comparePassword } from "../../utils/hash.js";
 import { generateToken } from "../../utils/jwt.js";
@@ -18,7 +19,11 @@ export const signupService = async (data) => {
 
   const token = generateToken(user._id);
 
-  return { user, token };
+  // Remove password from user object
+  const userObject = user.toObject();
+  delete userObject.password;
+
+  return { user: userObject, token };
 };
 
 export const loginService = async (data) => {
@@ -32,5 +37,9 @@ export const loginService = async (data) => {
 
   const token = generateToken(user._id);
 
-  return { user, token };
+  // Remove password from user object
+  const userObject = user.toObject();
+  delete userObject.password;
+
+  return { user: userObject, token };
 };
